@@ -15,8 +15,8 @@ app.post('/api/sos', (req, res) => {
     recievers.push(json.phonenumber3)
     recievers.push(json.phonenumber4)
     recievers.push(json.phonenumber5)
-    var response = fowardMessage.send(message, recievers)
-    res.end(response)
+    var response = fowardMessage.send(message, recievers).toString()
+    res.end("Message recieved. Failed to send to: " + response)
 });
 
 app.listen(7116, () => console.log('Started.'));
