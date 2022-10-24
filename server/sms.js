@@ -6,7 +6,8 @@ const validator = require('./validator.js')
 // and set the environment variables. See http://twil.io/secure
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-// const client = require('twilio')(accountSid, authToken);
+const senderNumber = process.env.SENDER_NUMBER;
+const client = require('twilio')(accountSid, authToken);
 
 module.exports.send = function(message, recievers) {
     console.log("GOT BODY:",message)
@@ -14,20 +15,20 @@ module.exports.send = function(message, recievers) {
     recievers.forEach(contact => {
         if (validator.validateNumber(contact)) {
             console.log("Number whitelisted & validated.")
+            client.messages 
+                .create({
+                    body: message, 
+                    from: senderNumber, 
+                    to: contact
+                })
+                .then(message => console.log(message.sid))
+                // .catch(error => console.log(error));
         }
         else {
             console.error("Error. Not a whitelisted/valid number.")
             failed_to_send.push(contact)
         }
     })
-    // client.messages 
-    // .create({
-    //     body: 'Hi there', 
-    //     from: process.env.SENDER_NUMBER, 
-    //     to: process.env.RECIVER_NUMBER
-    // })
-    // .then(message => console.log(message.sid))
-    // .catch(error => console.log(error));
     return failed_to_send
 }
     
