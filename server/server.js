@@ -1,16 +1,21 @@
 const fowardMessage = require("./sms")
 const express = require('express');
 const app = express();
-app.use(express.json())
+app.use(express.urlencoded())
 
 app.post('/api/sos', (req, res) => {
     console.log('Hit by post request from IP: \"' + req.ip +  '\" :(');
     console.log("Request:",req.body)
     json = req.body
     message = json.message
-    recievers = json.recievers
-    fowardMessage.send(message, sender, recievers)
-    res.end("Request recieved. Request was: \"" + req.body + "\"")
+    var recievers = []
+    recievers.push(json.phonenumber1)
+    recievers.push(json.phonenumber2)
+    recievers.push(json.phonenumber3)
+    recievers.push(json.phonenumber4)
+    recievers.push(json.phonenumber5)
+    fowardMessage.send(message, recievers)
+    res.end("Request recieved. Message was: \"" + message + "\"")
 });
 
-app.listen(3000, () => console.log('Listening on port 3000'));
+app.listen(7116, () => console.log('Started.'));
