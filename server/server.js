@@ -2,6 +2,7 @@ const fowardMessage = require("./sms")
 const express = require('express');
 const app = express();
 app.use(express.urlencoded())
+app.set('trust proxy', 'loopback')
 
 app.post('/api/sos', (req, res) => {
     console.log('Hit by post request from IP: \"' + req.ip +  '\" :(');
@@ -14,8 +15,8 @@ app.post('/api/sos', (req, res) => {
     recievers.push(json.phonenumber3)
     recievers.push(json.phonenumber4)
     recievers.push(json.phonenumber5)
-    fowardMessage.send(message, recievers)
-    res.end("Request recieved. Message was: \"" + message + "\"")
+    var response = fowardMessage.send(message, recievers)
+    res.end(response)
 });
 
 app.listen(7116, () => console.log('Started.'));

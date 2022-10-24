@@ -1,5 +1,3 @@
-server/cred.env
-
 # Logs
 logs
 *.log
