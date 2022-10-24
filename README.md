@@ -1,4 +1,4 @@
 # Mayday
-A website that allows you to send an urgent message to your emergency contacts at the click of a button!
+An app taht allows you to see if your in danger!
 
 Developed for the Congressional App Challenge.
