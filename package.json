@@ -15,7 +15,8 @@
     "nodejs",
     "restful",
     "api",
-    "expressjs"
+    "expressjs",
+    "twilio"
   ],
   "author": "hibyemy, ganyuke",
   "license": "MIT",
@@ -30,5 +31,8 @@
   },
   "dependencies": {
     "twilio": "^3.83.0"
+  },
+  "engines": {
+    "node": ">=12"
   }
 }
