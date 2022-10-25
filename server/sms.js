@@ -14,19 +14,19 @@ const client = require('twilio')(accountSid, authToken);
 module.exports.send = function(message, recievers) {
     console.log("GOT BODY:",message);
     if (message == '') {
-        return "Error. Cannot send empty message."
+        return "Error: Cannot send empty message."
     }
     var failed_to_send = [];
     recievers.forEach(contact => {
         if (validator.validateNumber(contact)) {
             console.log("Number whitelisted & validated.");
-            // client.messages 
-            //     .create({
-            //         body: message, 
-            //         from: senderNumber, 
-            //         to: contact
-            //     })
-            //     .then(message => console.log(message.sid));
+            client.messages 
+                 .create({
+                     body: message, 
+                     from: senderNumber, 
+                     to: contact
+                 })
+                 .then(message => console.log(message.sid));
                 // .catch(error => console.log(error));
         }
         else {
@@ -34,7 +34,7 @@ module.exports.send = function(message, recievers) {
             failed_to_send.push(contact);
         }
     })
-    return "Error: Failed verification of "+failed_to_send;
+    return "Error: Failed verification of "+failed_to_send.toString();
 }
     
                     

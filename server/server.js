@@ -26,7 +26,7 @@ app.post('/api/sos', (req, res) => {
     var contacts = json.contacts;
     var response = fowardMessage.send(message, contacts).toString();
     res.setHeader('Content-Type', 'text/plain')
-    res.end("Message recieved." + response);
+    res.end("Message recieved. " + response);
 });
 
 app.listen(7116, () => console.log('Listening on port 7116.'));

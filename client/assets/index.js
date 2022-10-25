@@ -36,12 +36,12 @@ addNumberButton.addEventListener("click", addNewNumberForm);
 
 let num_forms = 2;
 
-function addNewNumberForm(click) {
+function addNewNumberForm() {
     if (num_forms > 5) {
         errorDisplay('Error: Max 5 contacts.')
         return;
     }
-    var dummy = "<label for=\"phonenumber"+num_forms+"\">Emergency contact #"+num_forms+":</label><br><input type=\"text\" id=\"phonenumber"+num_forms+"\" name=\"phonenumber\"  placeholder=\"+11231231234\"><br><br>";
+    var dummy = "<label for=\"phonenumber"+num_forms+"\">Emergency contact #"+num_forms+":</label><br><input type=\"tel\" pattern=\"\\+1[0-9]{10}\" id=\"phonenumber"+num_forms+"\" name=\"phonenumber\"  placeholder=\"+11231231234\"><br><br>";
     document.getElementById('phone-numbers').innerHTML += dummy;
     num_forms += 1;    
 }
