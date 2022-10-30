@@ -6,7 +6,12 @@ const errorText = document.getElementById("error-response");
 form.addEventListener("submit", submit);
 
 function errorDisplay(error) {
-    errorText.innerHTML = '<span>'+error+'</span>';
+    if (error == "Message sent.") {
+      errorText.innerHTML = '<span class=success>'+error+'</span>';
+    }
+    else {
+      errorText.innerHTML = '<span class=error>'+error+'</span>';
+    }
 }
 
 function submit(submit_form) {

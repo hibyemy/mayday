@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
+const e = require('cors');
 const validator = require('./validator.js');
 
 // Download the helper library from https://www.twilio.com/docs/node/install
@@ -34,7 +35,11 @@ module.exports.send = function(message, recievers) {
             failed_to_send.push(contact);
         }
     })
-    return "Error: Failed verification of "+failed_to_send.toString();
+    let failed_numbers = failed_to_send.toString()
+    if (failed_numbers == '') {
+        return "Message sent."
+    }   
+    else {
+        return "Error: Failed verification of "+failed_numbers;
+    }
 }
-    
-                    
