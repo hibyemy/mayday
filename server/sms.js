@@ -9,6 +9,7 @@ const validator = require('./validator.js');
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const senderNumber = process.env.SENDER_NUMBER;
+const paidStatus = process.env.PAID;
 const client = require('twilio')(accountSid, authToken);
 
 module.exports.send = function(message, recievers) {
@@ -18,7 +19,7 @@ module.exports.send = function(message, recievers) {
     }
     var failed_to_send = [];
     recievers.forEach(contact => {
-        if (validator.validateNumber(contact)) {
+        if (validator.validateNumber(contact) || paidStatus) {
             console.log("Number whitelisted & validated.");
             client.messages 
                  .create({
