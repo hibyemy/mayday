@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial scale=1.0">
 
-        <title>The Button - Mayday</title>
+        <title>Emergency Contacts</title>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@500&display=swap');
 
@@ -64,11 +64,11 @@
                 <hr style="border: 2px solid #d36049; width:95%;margin-top: 0px; margin-bottom: 20px;">
                 <div id="phone-numbers">
                     <label for="phonenumber1">Emergency contact #1:</label><br>
-                    <input type="tel" pattern="\+1[0-9]{10}" id="phonenumber1" name="phonenumber" placeholder="+11231231234"><br><br>    
+                    <input type="tel" pattern="[0-9]{10}" id="phonenumber1" name="phonenumber" placeholder="1231231234"><br><br>    
                 </div>
 
                 <button type="button" id="add-number" class="nice-button">Add Contact</button>
-                <button id="demo" class="nice-button">Get Location</button><br><br> 
+                <button type="button" id="demo" class="nice-button">Get Location</button><br><br> 
 
                 <label for="message">Text message:</label><br>
                 <textarea id="message-box" name="message" rows="5" cols="60" placeholder="Enter details of your emergency here" style="max-width: 350px;border: 4px inset #ff7358;border-radius: 0.2cm;display: inline; padding: 0.5%; text-align: center; " ></textarea><br>

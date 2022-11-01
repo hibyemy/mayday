@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
-const e = require('cors');
+
 const validator = require('./validator.js');
 
 // Download the helper library from https://www.twilio.com/docs/node/install
@@ -15,10 +15,20 @@ const client = require('twilio')(accountSid, authToken);
 module.exports.send = function(message, recievers) {
     console.log("GOT BODY:",message);
     if (message == '') {
-        return "Error: Cannot send empty message."
+        return "Error: Cannot send empty message.";
     }
-    var failed_to_send = [];
-    recievers.forEach(contact => {
+    if (recievers == ['']) {
+        return "Error: No contacts to send to.";
+    }
+    let failed_to_send = [];
+    let deduplicated_list = [...new Set(recievers)];
+    console.log("Deduplicating contacts:", deduplicated_list)
+    if (deduplicated_list.length > 5) {
+        let extra_numbers = deduplicated_list.splice(5);
+        console.error("Warning: Recieved more than 5 numbers. Truncated:", extra_numbers);
+        failed_to_send.push(extra_numbers);
+    }
+    deduplicated_list.forEach(contact => {
         if (validator.validateNumber(contact)) {
             console.log("Number whitelisted & validated.");
             client.messages 
@@ -27,19 +37,19 @@ module.exports.send = function(message, recievers) {
                      from: senderNumber, 
                      to: contact
                  })
-                 .then(message => console.log(message.sid));
-                // .catch(error => console.log(error));
+                 .then(message => console.log(message.sid))
+                 .catch(error => console.log(error));
         }
         else {
-            console.error("Error. Not a whitelisted/valid number.");
+            console.error("Error: Not a whitelisted/valid number.");
             failed_to_send.push(contact);
         }
     })
-    let failed_numbers = failed_to_send.toString()
+    let failed_numbers = failed_to_send.toString();
     if (failed_numbers == '') {
-        return "Message sent."
+        return "Message sent.";
     }   
     else {
-        return "Error: Failed verification of "+failed_numbers;
+        return "Error: Failed to send to "+failed_numbers;
     }
 }

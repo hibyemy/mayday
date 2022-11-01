@@ -1,4 +1,4 @@
-const host = 'http://localhost:7116'
+const host = window.location.protocol+"//"+window.location.hostname;
 
 const form = document.getElementById("emergency-form");
 const message_box = document.getElementById("message-box");
@@ -6,7 +6,7 @@ const errorText = document.getElementById("error-response");
 form.addEventListener("submit", submit);
 
 function errorDisplay(error) {
-    if (error == "Message sent.") {
+    if (error == "Message recieved. Message sent.") {
       errorText.innerHTML = '<span class=success>'+error+'</span>';
     }
     else {
@@ -17,27 +17,31 @@ function errorDisplay(error) {
 function submit(submit_form) {
     submit_form.preventDefault();
     if (message_box.value == '') {
-      errorDisplay('Please input a message.')
+      errorDisplay('Please input a message.');
+      return;
+    }
+    let formData = new FormData(submit_form.target);
+    let jsonFile = {'contacts':[]};
+    formData.forEach((v, i) => {
+        if (i=='phonenumber' && v != ''){
+            jsonFile['contacts'].push("+1"+v);
+        }
+        else if (i=='message') {
+            jsonFile[i] = v;
+        }
+    });
+    if (jsonFile['contacts'] == ['']) {
+      errorDisplay('Please input a phone number.');
       return;
     }
     const xhr = new XMLHttpRequest();
     xhr.open('POST', host+'/api/sos', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    var formData = new FormData(submit_form.target);
-    var jsonFile = {'contacts':[]};
-    formData.forEach((v, i) => {
-        if (i=='phonenumber'){
-            jsonFile['contacts'].push(v);
-        }
-        else {
-            jsonFile[i] = v;
-        }
-    });
     xhr.send(JSON.stringify(jsonFile));
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
-            errorDisplay(xhr.response)
+            errorDisplay(xhr.response);
         }
       }
 }
@@ -51,8 +55,10 @@ function addNewNumberForm() {
     if (num_forms >= 5) {
         addNumberButton.style.display = 'none';
     }
-    var dummy = "<label for=\"phonenumber"+num_forms+"\">Emergency contact #"+num_forms+":</label><br><input type=\"tel\" pattern=\"\\+1[0-9]{10}\" id=\"phonenumber"+num_forms+"\" name=\"phonenumber\"  placeholder=\"+11231231234\"><br><br>";
-    document.getElementById('phone-numbers').innerHTML += dummy;
+
+    let dummy = "<label for=\"phonenumber"+num_forms+"\">Emergency contact #"+num_forms+":</label><br><input type=\"tel\" pattern=\"[0-9]{10}\" id=\"phonenumber"+num_forms+"\" name=\"phonenumber\"  placeholder=\"1231231234\"><br><br>";
+    
+    document.getElementById('phone-numbers').insertAdjacentHTML("beforeend", dummy);
     num_forms += 1;    
 }
 

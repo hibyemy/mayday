@@ -10,7 +10,7 @@ Developed for the Congressional App Challenge.
 * Node.js `12.x` or higher.
 * A Twilio account SID, token, and number.
 * A domain to host on.
-* A list of US (+1) numbers that you wish to send messages to and (if you are on the Twilio trial plan) have whitelisted your Twilio account. Delinate each number with a comma. Do not add spaces or hyphens.
+* (Optional for paid plans) A list of US (+1) numbers that you wish to send messages to have whitelisted your Twilio account. Delinate each number with a space. Do not add spaces, hyphens, or parentheses within phone numbers.
 * A `.env` in the project root containing the aforementioned information in the format:
 ```
 TWILIO_ACCOUNT_SID='xxxxxxx'
@@ -18,6 +18,12 @@ TWILIO_AUTH_TOKEN='xxxxxx'
 SENDER_NUMBER='+xxxxxxxxxxx'
 WHITELIST='+1XXXXXXXXX +1XXXXXXXXXX'
 HOST='http://localhost:3000 https://example.com'
+```
+### Additional enviromental variables
+* You may change the port that the app runs on with `PORT`.
+* If you are paying for Twilio, you can disable the whitelist requirement by adding:
+```
+PAID='true'
 ```
 
 ## Install
